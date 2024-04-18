@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pathfinding/core/grid.dart';
 import 'package:pathfinding/finders/astar.dart';
-import 'package:myapp/path_processor.dart';
+import 'package:myapp/widgets/path_processor.dart';
 import 'package:myapp/busca.dart';
 
 class CriaGrid extends StatefulWidget {
