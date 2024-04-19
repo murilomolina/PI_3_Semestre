@@ -3,6 +3,7 @@ import 'package:pathfinding/core/grid.dart';
 import 'package:pathfinding/finders/astar.dart';
 import 'package:myapp/widgets/path_processor.dart';
 import 'package:myapp/busca.dart';
+import 'package:myapp/widgets/pinta_borda.dart';
 
 class CriaGrid extends StatefulWidget {
   const CriaGrid({super.key});
@@ -12,9 +13,10 @@ class CriaGrid extends StatefulWidget {
 }
 
 class _CriaGridState extends State<CriaGrid> {
-  // Copia da nossa grid do pacote pathfinding para ter dados acessaveis pelo construtor de Grids, tentar corrigir esse workaround no futuro para remover essa copia do grid de verdade do pathfinder.
+  // Grid com informações para o pacote de pathfinding saber o que é andavel ou não
+  // 0 é andavel e 1 não é
   final List<List<int>> gridData = [
-    [1, 0, 1, 1, 1, 1, 1, 1, 1, 1],
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
     [1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
     [1, 0, 1, 1, 0, 0, 1, 1, 0, 1],
     [1, 0, 1, 1, 0, 0, 1, 1, 0, 1],
@@ -27,8 +29,8 @@ class _CriaGridState extends State<CriaGrid> {
   ];
   @override
   Widget build(BuildContext context) {
-    // Grid com nossas posições 0 é andavel e 1 não é
-    var grid = Grid(10, 10, gridData); // Update grid size to 10x10
+    var pintor = PintaBorda();
+    var grid = Grid(10, 10, gridData);
     // Cria um pathfinder usando o algoritimo A*
     var pathFinder = AStarFinder();
     // Cria um pathProcessor pra tratar os dados das coordenadas encontradas pelo pathfinder
@@ -39,10 +41,9 @@ class _CriaGridState extends State<CriaGrid> {
     int pos = 0;
     try {
       if (coordenadas.isNotEmpty) {
-        // Acha um caminho originando das coordenadas 1,0 indo até 10,10
-        path = pathFinder.findPath(
-            1, 0, coordenadas[0], coordenadas[1], grid.clone());
-        // Chama a nossa classe para filtrar o path
+        // Acha um caminho originando das coordenadas 1,1 indo até 9,9
+        path = pathFinder.findPath(1, 1, coordenadas[0], coordenadas[1], grid.clone());
+        // Chama o nosso metodo para filtrar o path
         pathProcessor.processPath(path);
         // Coloca os valores filtrados em novas variaveis
         var rows = pathProcessor.rows;
@@ -62,56 +63,35 @@ class _CriaGridState extends State<CriaGrid> {
             int row = index ~/ gridData[0].length;
             int col = index % gridData[0].length;
             Color color;
+            bool isTopo = (row == 0 && col > 0 && col < 9);
+            bool isBase = (row == 9 && col > 0 && col < 9);
+            bool isEsquerda = (col == 0 && row > 0 && row < 9);
+            bool isDireita = (col == 9 && row > 0 && row < 9);
+            // Colore os tiles que são andaveis ou não e deixa as bordas brancas
+            if(gridData[row][col] == 1 && (row > 0 && row < 9 && col > 0 && col < 9)){
+              color = Colors.grey;
+            }
+            else{
+              color = Colors.white;
+            }
             // Colore o tile do grid caso a row e col estejam na mesma posição que as coordenas de cols e rows na pos atual
-            if ((cols.isNotEmpty && rows.isNotEmpty) &&
-                (cols[pos] == col && rows[pos] == row)) {
+            if ((cols.isNotEmpty && rows.isNotEmpty) && (cols[pos] == col && rows[pos] == row)) {
               color = Colors.green;
               // Passa a pos pro proximo index de cols e rows
               if (pos < cols.length - 1) {
                 pos++;
               }
             }
-            // Colore os tiles que são andáveis mas que não foram utilizados pelo pathfinder para o caminho mais curto
-            else if (gridData[row][col] == 0) {
-              color = Colors.white;
-            }
-            // Caso o tile não esteja disponivel colore de vermelho
-            else {
-              color = Colors.grey;
-            }
-            // Verificar se o quadrado atual está nas bordas
-            bool isOnBorder = row == 0 || row == 9 || col == 0 || col == 9;
 
             // Verificar se o quadrado atual é um obstáculo (valor 1) ou não
-            bool isObstacle = gridData[row][col] == 1;
-
-            // Verificar se há quadrados adjacentes que são obstáculos
-            bool hasAdjacentObstacle = false;
-            if (isObstacle) {
-              if (row > 0 && gridData[row - 1][col] == 1) {
-                hasAdjacentObstacle = true;
-              }
-              if (row < 9 && gridData[row + 1][col] == 1) {
-                hasAdjacentObstacle = true;
-              }
-              if (col > 0 && gridData[row][col - 1] == 1) {
-                hasAdjacentObstacle = true;
-              }
-              if (col < 9 && gridData[row][col + 1] == 1) {
-                hasAdjacentObstacle = true;
-              }
-            }
-            // Definir a cor das bordas do quadrado
-            BorderSide borderSide = BorderSide(
-                color: isOnBorder || hasAdjacentObstacle
-                    ? Colors.black
-                    : Colors.transparent);
+            bool isObstacle = gridData[row][col] == 1 && col > 0 && col < 9 && row > 0 && row < 9;
+          
             // Devolve o container que vai ser a grid da coordenada da atual iteração
             return Container(
               decoration: BoxDecoration(
                 color: color,
-                border: Border.fromBorderSide(borderSide),
-              ),
+                border: pintor.pintaBorda(isObstacle, isTopo, isBase, isEsquerda, isDireita),
+              ),   
             );
           },
         );
@@ -133,47 +113,28 @@ class _CriaGridState extends State<CriaGrid> {
         int row = index ~/ gridData.length;
         int col = index % gridData.length;
         Color color;
-        // Colore os tiles que são andáveis mas que não foram utilizados pelo pathfinder para o caminho mais curto
-        if (gridData[row][col] == 0) {
-          color = Colors.white;
-        }
-        // Caso o tile não esteja disponivel colore de vermelho
-        else {
+        bool isTopo = (row == 0 && col > 0 && col < 9);
+        bool isBase = (row == 9 && col > 0 && col < 9);
+        bool isEsquerda = (col == 0 && row > 0 && row < 9);
+        bool isDireita = (col == 9 && row > 0 && row < 9);
+
+        // Colore os tiles que são andaveis ou não e deixa as bordas brancas
+        if(gridData[row][col] == 1 && (row > 0 && row < 9 && col > 0 && col < 9)){
           color = Colors.grey;
         }
-        // Verificar se o quadrado atual está nas bordas
-        bool isOnBorder = row == 0 || row == 9 || col == 0 || col == 9;
+        else{
+          color = Colors.white;
+        }
 
         // Verificar se o quadrado atual é um obstáculo (valor 1) ou não
-        bool isObstacle = gridData[row][col] == 1;
-
-        // Verificar se há quadrados adjacentes que são obstáculos
-        bool hasAdjacentObstacle = false;
-        if (isObstacle) {
-          if (row > 0 && gridData[row - 1][col] == 1) {
-            hasAdjacentObstacle = true;
-          }
-          if (row < 9 && gridData[row + 1][col] == 1) {
-            hasAdjacentObstacle = true;
-          }
-          if (col > 0 && gridData[row][col - 1] == 1) {
-            hasAdjacentObstacle = true;
-          }
-          if (col < 9 && gridData[row][col + 1] == 1) {
-            hasAdjacentObstacle = true;
-          }
-        }
-        // Definir a cor das bordas do quadrado
-        BorderSide borderSide = BorderSide(
-            color: isOnBorder || hasAdjacentObstacle
-                ? Colors.black
-                : Colors.transparent);
+        bool isObstacle = gridData[row][col] == 1 && col > 0 && col < 9 && row > 0 && row < 9;
+      
         // Devolve o container que vai ser a grid da coordenada da atual iteração
         return Container(
           decoration: BoxDecoration(
             color: color,
-            border: Border.fromBorderSide(borderSide),
-          ),
+            border: pintor.pintaBorda(isObstacle, isTopo, isBase, isEsquerda, isDireita),
+          ),   
         );
       },
     );
