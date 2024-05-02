@@ -42,7 +42,8 @@ class _CriaGridState extends State<CriaGrid> {
     try {
       if (coordenadas.isNotEmpty) {
         // Acha um caminho originando das coordenadas 1,1 indo até 9,9
-        path = pathFinder.findPath(1, 1, coordenadas[0], coordenadas[1], grid.clone());
+        path = pathFinder.findPath(
+            1, 1, coordenadas[0], coordenadas[1], grid.clone());
         // Chama o nosso metodo para filtrar o path
         pathProcessor.processPath(path);
         // Coloca os valores filtrados em novas variaveis
@@ -62,21 +63,26 @@ class _CriaGridState extends State<CriaGrid> {
             // Descobre a posição da coluna e fileira da iteração atual
             int row = index ~/ gridData[0].length;
             int col = index % gridData[0].length;
-            Color color;
+            Color? color;
             bool isTopo = (row == 0 && col > 0 && col < 9);
             bool isBase = (row == 9 && col > 0 && col < 9);
             bool isEsquerda = (col == 0 && row > 0 && row < 9);
             bool isDireita = (col == 9 && row > 0 && row < 9);
             // Colore os tiles que são andaveis ou não e deixa as bordas brancas
-            if(gridData[row][col] == 1 && (row > 0 && row < 9 && col > 0 && col < 9)){
+            if (gridData[row][col] == 1 &&
+                (row > 0 && row < 9 && col > 0 && col < 9)) {
               color = Colors.grey;
-            }
-            else{
+            } else {
               color = Colors.white;
             }
             // Colore o tile do grid caso a row e col estejam na mesma posição que as coordenas de cols e rows na pos atual
             if ((cols.isNotEmpty && rows.isNotEmpty) && (cols[pos] == col && rows[pos] == row)) {
-              color = Colors.green;
+              // Se for a última posição (destino final), define uma cor diferente
+              if (cols[pos] == col && rows[pos] == row && pos == cols.length - 1) {
+                color = Colors.indigo[900]; // Cor para o destino final
+              } else {
+                color = Colors.blue; // Cor para o caminho percorrido
+              }
               // Passa a pos pro proximo index de cols e rows
               if (pos < cols.length - 1) {
                 pos++;
@@ -84,14 +90,19 @@ class _CriaGridState extends State<CriaGrid> {
             }
 
             // Verificar se o quadrado atual é um obstáculo (valor 1) ou não
-            bool isObstacle = gridData[row][col] == 1 && col > 0 && col < 9 && row > 0 && row < 9;
-          
+            bool isObstacle = gridData[row][col] == 1 &&
+                col > 0 &&
+                col < 9 &&
+                row > 0 &&
+                row < 9;
+
             // Devolve o container que vai ser a grid da coordenada da atual iteração
             return Container(
               decoration: BoxDecoration(
                 color: color,
-                border: pintor.pintaBorda(isObstacle, isTopo, isBase, isEsquerda, isDireita),
-              ),   
+                border: pintor.pintaBorda(
+                    isObstacle, isTopo, isBase, isEsquerda, isDireita),
+              ),
             );
           },
         );
@@ -119,22 +130,24 @@ class _CriaGridState extends State<CriaGrid> {
         bool isDireita = (col == 9 && row > 0 && row < 9);
 
         // Colore os tiles que são andaveis ou não e deixa as bordas brancas
-        if(gridData[row][col] == 1 && (row > 0 && row < 9 && col > 0 && col < 9)){
+        if (gridData[row][col] == 1 &&
+            (row > 0 && row < 9 && col > 0 && col < 9)) {
           color = Colors.grey;
-        }
-        else{
+        } else {
           color = Colors.white;
         }
 
         // Verificar se o quadrado atual é um obstáculo (valor 1) ou não
-        bool isObstacle = gridData[row][col] == 1 && col > 0 && col < 9 && row > 0 && row < 9;
-      
+        bool isObstacle =
+            gridData[row][col] == 1 && col > 0 && col < 9 && row > 0 && row < 9;
+
         // Devolve o container que vai ser a grid da coordenada da atual iteração
         return Container(
           decoration: BoxDecoration(
             color: color,
-            border: pintor.pintaBorda(isObstacle, isTopo, isBase, isEsquerda, isDireita),
-          ),   
+            border: pintor.pintaBorda(
+                isObstacle, isTopo, isBase, isEsquerda, isDireita),
+          ),
         );
       },
     );
