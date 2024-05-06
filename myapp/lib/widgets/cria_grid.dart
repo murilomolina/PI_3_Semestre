@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pathfinding/core/grid.dart';
 import 'package:pathfinding/finders/astar.dart';
 import 'package:myapp/widgets/path_processor.dart';
-import 'package:myapp/busca.dart';
+import 'package:myapp/pages/pagina_inicial.dart';
 import 'package:myapp/widgets/pinta_borda.dart';
 
 class CriaGrid extends StatefulWidget {
@@ -79,9 +79,9 @@ class _CriaGridState extends State<CriaGrid> {
             if ((cols.isNotEmpty && rows.isNotEmpty) && (cols[pos] == col && rows[pos] == row)) {
               // Se for a última posição (destino final), define uma cor diferente
               if (cols[pos] == col && rows[pos] == row && pos == cols.length - 1) {
-                color = Colors.indigo[900]; // Cor para o destino final
+                color = Colors.indigo[600]; // Cor para o destino final
               } else {
-                color = Colors.blue; // Cor para o caminho percorrido
+                color = Colors.blue[600]; // Cor para o caminho percorrido
               }
               // Passa a pos pro proximo index de cols e rows
               if (pos < cols.length - 1) {
