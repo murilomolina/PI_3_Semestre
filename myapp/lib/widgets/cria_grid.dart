@@ -4,6 +4,10 @@ import 'package:pathfinding/finders/astar.dart';
 import 'package:myapp/widgets/path_processor.dart';
 import 'package:myapp/pages/pagina_inicial.dart';
 import 'package:myapp/widgets/pinta_borda.dart';
+import 'package:myapp/widgets/edita_container.dart';
+import 'dart:async';
+
+Timer? timerUpdate;
 
 class CriaGrid extends StatefulWidget {
   const CriaGrid({super.key});
@@ -27,8 +31,9 @@ class _CriaGridState extends State<CriaGrid> {
     [1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
   ];
-  @override
+  int containerNum = 1;
   Widget build(BuildContext context) {
+    var editor = EditaContainer();
     var pintor = PintaBorda();
     var grid = Grid(10, 10, gridData);
     // Cria um pathfinder usando o algoritimo A*
@@ -42,8 +47,7 @@ class _CriaGridState extends State<CriaGrid> {
     try {
       if (coordenadas.isNotEmpty) {
         // Acha um caminho originando das coordenadas 1,1 indo até 9,9
-        path = pathFinder.findPath(
-            1, 1, coordenadas[0], coordenadas[1], grid.clone());
+        path = pathFinder.findPath(1, 1, coordenadas[0], coordenadas[1], grid.clone());
         // Chama o nosso metodo para filtrar o path
         pathProcessor.processPath(path);
         // Coloca os valores filtrados em novas variaveis
@@ -61,27 +65,23 @@ class _CriaGridState extends State<CriaGrid> {
           ),
           itemBuilder: (context, index) {
             // Descobre a posição da coluna e fileira da iteração atual
-            int row = index ~/ gridData[0].length;
-            int col = index % gridData[0].length;
-            Color? color;
+            int row = index ~/ gridData.length;
+            int col = index % gridData.length;
+            Color color = Colors.white;
+            // Reseta o contador para não passar de 100 e quebrar a lista do editor
+            if(containerNum > 100) containerNum = 1;
+            int num = containerNum++;
             bool isTopo = (row == 0 && col > 0 && col < 9);
             bool isBase = (row == 9 && col > 0 && col < 9);
             bool isEsquerda = (col == 0 && row > 0 && row < 9);
             bool isDireita = (col == 9 && row > 0 && row < 9);
-            // Colore os tiles que são andaveis ou não e deixa as bordas brancas
-            if (gridData[row][col] == 1 &&
-                (row > 0 && row < 9 && col > 0 && col < 9)) {
-              color = Colors.grey;
-            } else {
-              color = Colors.white;
-            }
-            // Colore o tile do grid caso a row e col estejam na mesma posição que as coordenas de cols e rows na pos atual
+            
             if ((cols.isNotEmpty && rows.isNotEmpty) && (cols[pos] == col && rows[pos] == row)) {
               // Se for a última posição (destino final), define uma cor diferente
               if (cols[pos] == col && rows[pos] == row && pos == cols.length - 1) {
-                color = Colors.indigo[600]; // Cor para o destino final
+                color = Colors.indigo; // Cor para o destino final
               } else {
-                color = Colors.blue[600]; // Cor para o caminho percorrido
+                color = Colors.blue; // Cor para o caminho percorrido
               }
               // Passa a pos pro proximo index de cols e rows
               if (pos < cols.length - 1) {
@@ -90,19 +90,39 @@ class _CriaGridState extends State<CriaGrid> {
             }
 
             // Verificar se o quadrado atual é um obstáculo (valor 1) ou não
-            bool isObstacle = gridData[row][col] == 1 &&
-                col > 0 &&
-                col < 9 &&
-                row > 0 &&
-                row < 9;
+            bool isObstacle = gridData[row][col] == 1 && col > 0 && col < 9 && row > 0 && row < 9;
 
+            // Gera uma borda base para todos os containers
+            Border borda = pintor.pintaBorda(isObstacle, isTopo, isBase, isEsquerda, isDireita);
+            // Caso a lista esteja vazia na posição deste container, adicionar as opções base
+            if (bordas.length < num){
+              bordas.add(borda);
+              cores.add(color);
+            }
+          
             // Devolve o container que vai ser a grid da coordenada da atual iteração
             return Container(
               decoration: BoxDecoration(
-                color: color,
-                border: pintor.pintaBorda(
-                    isObstacle, isTopo, isBase, isEsquerda, isDireita),
+                color: color == Colors.indigo|| color == Colors.blue ? color: cores[num-1],
+                border: color == Colors.indigo|| color == Colors.blue ? Border.all(color: Colors.transparent): bordas[num-1]
               ),
+              child: GestureDetector(
+                onTap: (){
+                  setState(() {
+                    // Timer está sendo utilizado como gambiarra para atualizar a tela por outro classe até conseguir fazer o callBack funcionar
+                    timerUpdate = Timer.periodic(Duration(seconds: 1), (timer) {
+                      setState(() {
+                        if(update) {
+                          update = false;
+                          timerUpdate?.cancel();
+                        }
+                      });
+                    });
+                    // Abre a tela de edição
+                    editor.editaBorda(context, num);
+                  });
+                }
+              ),   
             );
           },
         );
@@ -123,31 +143,44 @@ class _CriaGridState extends State<CriaGrid> {
         // Descobre a posição da coluna e fileira da iteração atual
         int row = index ~/ gridData.length;
         int col = index % gridData.length;
-        Color color;
+        Color color = Colors.white;
+        if(containerNum > 100) containerNum = 1;
+        int num = containerNum++;
         bool isTopo = (row == 0 && col > 0 && col < 9);
         bool isBase = (row == 9 && col > 0 && col < 9);
         bool isEsquerda = (col == 0 && row > 0 && row < 9);
         bool isDireita = (col == 9 && row > 0 && row < 9);
 
-        // Colore os tiles que são andaveis ou não e deixa as bordas brancas
-        if (gridData[row][col] == 1 &&
-            (row > 0 && row < 9 && col > 0 && col < 9)) {
-          color = Colors.grey;
-        } else {
-          color = Colors.white;
-        }
-
         // Verificar se o quadrado atual é um obstáculo (valor 1) ou não
-        bool isObstacle =
-            gridData[row][col] == 1 && col > 0 && col < 9 && row > 0 && row < 9;
+        bool isObstacle = gridData[row][col] == 1 && col > 0 && col < 9 && row > 0 && row < 9;
+
+        Border borda = pintor.pintaBorda(isObstacle, isTopo, isBase, isEsquerda, isDireita);
+        if (bordas.length < num){
+          bordas.add(borda);
+          cores.add(color);
+        }
 
         // Devolve o container que vai ser a grid da coordenada da atual iteração
         return Container(
           decoration: BoxDecoration(
-            color: color,
-            border: pintor.pintaBorda(
-                isObstacle, isTopo, isBase, isEsquerda, isDireita),
+            color: cores[num-1],
+            border: bordas[num-1]
           ),
+          child: GestureDetector(
+            onTap: (){
+              setState(() {
+                timerUpdate = Timer.periodic(Duration(seconds: 1), (timer) {
+                  setState(() {
+                    if(update) {
+                      update = false;
+                      timerUpdate?.cancel();
+                    }
+                  });
+                });
+                editor.editaBorda(context, num);
+              });
+            }
+          ),  
         );
       },
     );

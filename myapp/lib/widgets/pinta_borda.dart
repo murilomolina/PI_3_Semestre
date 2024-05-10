@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+// Utilizada para pintar as bordas do ginásio e futuramente outros limites que vão vir por padrão, como a arquibancada
 class PintaBorda{
   var cor = Colors.black;
   Border pintaBorda(bool isObstacle, bool isTopo, bool isBase, bool isEsquerda, bool isDireita){
