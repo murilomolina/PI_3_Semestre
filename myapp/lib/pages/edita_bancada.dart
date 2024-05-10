@@ -1,22 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:myapp/pages/banco_de_dados.dart';
-import 'package:myapp/pages/edita_bancada.dart';
+import 'package:myapp/pages/pagina_inicial.dart';
 import 'package:myapp/widgets/cria_grid.dart';
-import 'package:myapp/widgets/desenha_grid.dart';
-import 'package:widget_zoom/widget_zoom.dart';
 
 
 List<int> coordenadas = [];
 
-class PaginaInicial extends StatefulWidget {
-  const PaginaInicial({super.key});
+class EditaBancada extends StatefulWidget {
+  const EditaBancada({super.key});
 
   @override
-  State<PaginaInicial> createState() => _PaginaInicialState();
+  State<EditaBancada> createState() => _EditaBancadaState();
 }
 
-class _PaginaInicialState extends State<PaginaInicial> {
+class _EditaBancadaState extends State<EditaBancada> {
   final inputUsuario = TextEditingController();
 
   @override
@@ -24,7 +22,7 @@ class _PaginaInicialState extends State<PaginaInicial> {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-        title: const Text('Tela Inicial'),
+        title: const Text('Editor de Bancadas'),
           // Adicionando o ícone de hambúrguer no AppBar
           leading: Builder(
             builder: (BuildContext context) {
@@ -76,28 +74,35 @@ class _PaginaInicialState extends State<PaginaInicial> {
                         );
                 },
               ),
+              ListTile(
+                title: const Text('Tela Inicial'),
+                onTap: () {
+                  // Lógica para ação ao pressionar Opção 2
+                  Navigator.pop(context); // Fechar o menu
+                  Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const PaginaInicial(), // atualmente apenas para motivos de exibição de rota, foi deixado como destino a página de banco de dados.
+                          ),
+                        );
+                },
+              ),
             ],
           ),
         ),
-        body:  SingleChildScrollView(
+        body: SingleChildScrollView(
           // mudei para esse modo afim de deixar toda a página scrollavel
           child: Padding(
-            // ignore: prefer_const_constructors
-            padding: EdgeInsets.all(20.0),
+            padding: const EdgeInsets.all(20.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 // ignore: prefer_const_constructors
-                WidgetZoom(
-                  heroAnimationTag: 'tag',
-                  zoomWidget:
-                      // ignore: prefer_const_constructors
-                      SizedBox(
-                    // o vs sugere que deixe essa caixa como uma const, porem se deixar o grid nunca se altera (deixando de fazer sua unica função)
-                    height: 400,
-                    child: DesenhaGrid(),
-                  ),
+                SizedBox(
+                  // o vs sugere que deixe essa caixa como uma const, porem se deixar o grid nunca se altera (deixando de fazer sua unica função)
+                  height: 400,
+                  child: CriaGrid(),
                 ),
                 TextField(
                   controller: inputUsuario,

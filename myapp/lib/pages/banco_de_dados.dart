@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/data/database_atual.dart';
 import 'package:myapp/data/user_insert_screen.dart';
+import 'package:myapp/pages/edita_bancada.dart';
 import 'package:myapp/pages/pagina_inicial.dart';
 
 class BancoDeDados extends StatelessWidget {
@@ -51,11 +52,30 @@ class BancoDeDados extends StatelessWidget {
                   );
                 },
               ),
-              ListTile(
-                title: const Text('Mapa'), // atualmente ainda está na página inicial
+              ListTile( 
+                title: const Text('Editor de Mapa'),
                 onTap: () {
-                  // Lógica para ação
-                  Navigator.pop(context); // fecha o menu
+                  // Lógica para ação ao pressionar Opção 2
+                  Navigator.pop(context); // Fechar o menu
+                  Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const EditaBancada(), // atualmente apenas para motivos de exibição de rota, foi deixado como destino a página de banco de dados.
+                          ),
+                        );
+                },
+              ),
+              ListTile(
+                title: const Text('Tela Inicial'),
+                onTap: () {
+                  // Lógica para ação ao pressionar Opção 2
+                  Navigator.pop(context); // Fechar o menu
+                  Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const PaginaInicial(), // atualmente apenas para motivos de exibição de rota, foi deixado como destino a página de banco de dados.
+                          ),
+                        );
                 },
               ),
             ],
