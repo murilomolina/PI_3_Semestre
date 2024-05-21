@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:myapp/pages/banco_de_dados.dart';
 import 'package:myapp/pages/edita_bancada.dart';
+import 'package:myapp/pages/tela_login.dart';
 import 'package:myapp/widgets/cria_grid.dart';
 import 'package:myapp/widgets/desenha_grid.dart';
 import 'package:widget_zoom/widget_zoom.dart';
@@ -53,7 +54,6 @@ class _PaginaInicialState extends State<PaginaInicial> {
               ListTile(
                 title: const Text('Banco de Dados'),
                 onTap: () {
-                  // Lógica para ação ao pressionar Opção 1
                   Navigator.pop(context); // Fechar o menu
                   Navigator.push(
                           context,
@@ -66,12 +66,23 @@ class _PaginaInicialState extends State<PaginaInicial> {
               ListTile( 
                 title: const Text('Editor de Mapa'),
                 onTap: () {
-                  // Lógica para ação ao pressionar Opção 2
                   Navigator.pop(context); // Fechar o menu
                   Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const EditaBancada(), // atualmente apenas para motivos de exibição de rota, foi deixado como destino a página de banco de dados.
+                            builder: (context) => const EditaBancada(), 
+                          ),
+                        );
+                },
+              ),
+              ListTile( 
+                title: const Text('Tela Login'),
+                onTap: () {
+                  Navigator.pop(context); // Fechar o menu
+                  Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const TelaLogin(), // atualmente apenas para motivos de exibição do layout da tela de login.
                           ),
                         );
                 },
