@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:myapp/data/database_atual.dart';
-import 'package:myapp/data/user_insert_screen.dart';
+import 'package:myapp/data/query_executor.dart.dart';
 import 'package:myapp/pages/edita_bancada.dart';
 import 'package:myapp/pages/pagina_inicial.dart';
 
@@ -65,19 +64,6 @@ class BancoDeDados extends StatelessWidget {
                         );
                 },
               ),
-              ListTile(
-                title: const Text('Tela Inicial'),
-                onTap: () {
-                  // Lógica para ação ao pressionar Opção 2
-                  Navigator.pop(context); // Fechar o menu
-                  Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const PaginaInicial(), // atualmente apenas para motivos de exibição de rota, foi deixado como destino a página de banco de dados.
-                          ),
-                        );
-                },
-              ),
             ],
           ),
         ),
@@ -96,12 +82,12 @@ class BancoDeDados extends StatelessWidget {
                     ElevatedButton(
                       // Botão posicionado no topo apenas por motivos de testes e exibição de como ele ira funcionar
                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const UserInsertScreen(),
-                          ),
-                        );
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //     builder: (context) => const UserInsertScreen(),
+                        //   ),
+                        // );
                       },
                       child: const Text('Pressione para inserir usuário'),
                     ),
@@ -114,12 +100,13 @@ class BancoDeDados extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const DatabaseAtual(),
+                            // ignore: prefer_const_constructors
+                            builder: (context) =>  QueryExecutor(),
                           ),
                         );
                       },
                       child: const Text(
-                          'Pressione para visualizar o estado atual do banco de dados'),
+                          'Pressione para visualizar a tabela de usuários'),
                     ),
                   ],
                 ),
