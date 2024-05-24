@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_login/flutter_login.dart';
+import 'package:myapp/auth/auth_service.dart';
 import 'package:myapp/pages/pagina_inicial.dart';
 
 class TelaLogin extends StatelessWidget {
@@ -15,30 +16,36 @@ class TelaLogin extends StatelessWidget {
 
     return FlutterLogin(
       title: 'EurekaMap',
-      logo: const AssetImage('lib/assets/logo_maua_provisorio.jpg'),
-      onLogin: (_) => Future(() => null),
-      onSignup: (_) => Future(() => null),
+      logo: const AssetImage('lib/assets/logo/logo_maua_provisorio.jpg'),
+      onLogin: (loginData) {
+        return AuthService().login(loginData.name, loginData.password);
+      },
+      onSignup: (loginData) {
+        return AuthService().signup(loginData.name ?? '', loginData.password ?? '');
+      },
       onSubmitAnimationCompleted: () {
         Navigator.of(context).pushReplacement(MaterialPageRoute(
           builder: (context) => const PaginaInicial(),
         ));
       },
-      onRecoverPassword: (_) => Future(() => null),
+      onRecoverPassword: (name) {
+        return AuthService().recoverPassword(name);
+      }, // o que fazer para recuperar a senha???
+
       messages: LoginMessages(
         userHint: 'Usuario',
-        passwordHint: 'Pass',
-        confirmPasswordHint: 'Confirm',
+        passwordHint: 'Senha',
+        confirmPasswordHint: 'Confirma',
         loginButton: 'LOG IN',
-        signupButton: 'REGISTER',
-        forgotPasswordButton: 'Forgot huh?',
-        recoverPasswordButton: 'HELP ME',
-        goBackButton: 'GO BACK',
-        confirmPasswordError: 'Not match!',
+        signupButton: 'Cadastre-se',
+        forgotPasswordButton: 'Esqueceu sua senha?',
+        recoverPasswordButton: 'Ajuda',
+        goBackButton: 'Voltar',
+        confirmPasswordError: 'Senha Inválida',
         recoverPasswordDescription:
-            'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
-        recoverPasswordSuccess: 'Password rescued successfully',
+            'Aqui o usuario receberá uma pequena instrução sobre o que deve fazer para recuperar a senha.', // Criar um texto explicando como restaura a senha
+        recoverPasswordSuccess: 'Senha recuperada com sucesso!!!',
       ),
-      
       theme: LoginTheme(
         primaryColor: Colors.white,
         accentColor: Colors.blue.shade700,
@@ -50,10 +57,9 @@ class TelaLogin extends StatelessWidget {
           fontWeight: FontWeight.bold,
         ),
         bodyStyle: const TextStyle(
-          fontStyle: FontStyle.italic,
-          decoration: TextDecoration.underline,
-          color: Colors.black
-        ),
+            fontStyle: FontStyle.italic,
+            decoration: TextDecoration.underline,
+            color: Colors.black),
         textFieldStyle: const TextStyle(
           color: Color.fromARGB(255, 236, 113, 126),
           shadows: [Shadow(color: Colors.redAccent, blurRadius: 2)],
@@ -107,7 +113,7 @@ class TelaLogin extends StatelessWidget {
           highlightElevation: 6.0,
           shape: BeveledRectangleBorder(
             borderRadius: BorderRadius.circular(10),
-          ),    
+          ),
         ),
       ),
     );

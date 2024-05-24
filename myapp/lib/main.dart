@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:myapp/pages/pagina_inicial.dart';
+import 'package:myapp/pages/tela_login.dart';
 
 void main() {
   runApp(const MaterialApp(
-    home: PaginaInicial(),
+    home: TelaLogin(),
+    debugShowCheckedModeBanner: false,
   ));
 }
