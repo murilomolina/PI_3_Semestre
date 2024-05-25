@@ -26,7 +26,7 @@ class HomeScreen extends StatelessWidget {
         title: Row(
           children: [
             Image.asset(
-              'assets/logo_maua.png',  
+              'assets/logo_maua_provisorio.jpg',  
               width: 24,          
               height: 24,         
               color: Colors.white, 
