@@ -26,12 +26,12 @@ class HomeScreen extends StatelessWidget {
         title: Row(
           children: [
             Image.asset(
-              'assets/logo_maua_provisorio.jpg',  
+              'lib/assets/logo/logo_maua_provisorio.jpg',  
               width: 24,          
               height: 24,         
               color: Colors.white, 
             ),
-            SizedBox(width: 8), // Espaçamento entre a imagem e o texto
+            SizedBox(width: 8), 
             Text(
               'EurekaMap',
               style: TextStyle(color: Colors.white),
