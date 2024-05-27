@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -12,12 +14,14 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: HomeScreen(),
+      home: const HomeScreen(),
     );
   }
 }
 
 class HomeScreen extends StatelessWidget {
+  const HomeScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,15 +30,18 @@ class HomeScreen extends StatelessWidget {
         title: Row(
           children: [
             Image.asset(
-              'lib/assets/logo/logo_maua_provisorio.jpg',  
-              width: 24,          
-              height: 24,         
-              color: Colors.white, 
+              'lib/assets/logo/logo_maua_provisorio.jpg',
+              fit: BoxFit.cover,                    
             ),
-            SizedBox(width: 8), 
-            Text(
-              'EurekaMap',
-              style: TextStyle(color: Colors.white),
+            const SizedBox(width: 8),
+            const Expanded(
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  'EurekaMap',
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
             ),
           ],
         ),
@@ -43,10 +50,10 @@ class HomeScreen extends StatelessWidget {
         onTap: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => LoginScreen()),
+            MaterialPageRoute(builder: (context) => const LoginScreen()),
           );
         },
-        child: Center(
+        child: const Center(
           child: Text(
             'Bem Vindo ao EurekaMap',
             style: TextStyle(fontSize: 24),
@@ -58,14 +65,16 @@ class HomeScreen extends StatelessWidget {
 }
 
 class LoginScreen extends StatelessWidget {
+  const LoginScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blue[900],
-        title: Text('Login', style: TextStyle(color: Colors.white)),
+        title: const Text('Login', style: TextStyle(color: Colors.white)),
       ),
-      body: Center(
+      body: const Center(
         child: Text(
           'Tela de Login',
           style: TextStyle(fontSize: 24),
