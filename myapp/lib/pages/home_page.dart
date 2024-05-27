@@ -24,39 +24,32 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.blue[900],
-        title: Row(
-          children: [
-            Image.asset(
-              'lib/assets/logo/logo_maua_provisorio.jpg',
-              fit: BoxFit.cover,                    
-            ),
-            const SizedBox(width: 8),
-            const Expanded(
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'EurekaMap',
-                  style: TextStyle(color: Colors.white),
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const LoginScreen()),
+        );
+      },
+      child: Scaffold(
+        body: Container(
+          color: Colors.white,
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const SizedBox(height: 20),
+                const Text(
+                  'Bem Vindo ao EurekaMap',
+                  style: TextStyle(fontSize: 24),
                 ),
-              ),
+                const SizedBox(height: 20),
+                const Text(
+                  'Clique em qualquer lugar para começar',
+                  style: TextStyle(fontSize: 16),
+                ),
+              ],
             ),
-          ],
-        ),
-      ),
-      body: GestureDetector(
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const LoginScreen()),
-          );
-        },
-        child: const Center(
-          child: Text(
-            'Bem Vindo ao EurekaMap',
-            style: TextStyle(fontSize: 24),
           ),
         ),
       ),
@@ -70,16 +63,21 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.blue[900],
-        title: const Text('Login', style: TextStyle(color: Colors.white)),
-      ),
-      body: const Center(
-        child: Text(
-          'Tela de Login',
-          style: TextStyle(fontSize: 24),
+      body: Container(
+        color: Colors.white,
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: const [
+              Text(
+                'Tela de Login',
+                style: TextStyle(fontSize: 24),
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 }
+
