@@ -1,6 +1,7 @@
+import 'dart:async';
 import 'package:mysql_client/mysql_client.dart';
 
-main() async {
+Future conn() async {
   try {
     print('Conectando ao banco de dados...');
     final pool = MySQLConnectionPool(

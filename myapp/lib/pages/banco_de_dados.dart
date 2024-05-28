@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:myapp/data/query_executor.dart.dart';
+import 'package:myapp/data/conn.dart';
 import 'package:myapp/pages/edita_bancada.dart';
 import 'package:myapp/pages/pagina_inicial.dart';
 
@@ -12,7 +12,7 @@ class BancoDeDados extends StatelessWidget {
       home: Scaffold(
         appBar: AppBar(
           title: const Text('Banco de Dados'),
-          // Adicionando o ícone de hambúrguer no AppBar
+          // ícone de hambúrguer no AppBar
           leading: Builder(
             builder: (BuildContext context) {
               return IconButton(
@@ -82,6 +82,7 @@ class BancoDeDados extends StatelessWidget {
                     ElevatedButton(
                       // Botão posicionado no topo apenas por motivos de testes e exibição de como ele ira funcionar
                       onPressed: () {
+                        print("clicou");
                         // Navigator.push(
                         //   context,
                         //   MaterialPageRoute(
@@ -97,13 +98,13 @@ class BancoDeDados extends StatelessWidget {
                     ElevatedButton(
                       // Botão posicionado no topo apenas por motivos de testes e exibição de como ele ira funcionar
                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            // ignore: prefer_const_constructors
-                            builder: (context) =>  QueryExecutor(),
-                          ),
-                        );
+                        conn();
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //     builder: (context) => conn(),
+                        //   ),
+                        // );
                       },
                       child: const Text(
                           'Pressione para visualizar a tabela de usuários'),
