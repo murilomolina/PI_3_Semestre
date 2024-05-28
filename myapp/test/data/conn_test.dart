@@ -1,26 +1,39 @@
-import 'package:mysql1/mysql1.dart';
+import 'package:mysql_client/mysql_client.dart';
+import 'package:flutter_test/flutter_test.dart';
 
-main() async {
-  try {
-    print('Conectando ao banco de dados...');
-    final conn = await MySqlConnection.connect(ConnectionSettings(
-        host: '10.0.2.2', // recomenda-se usar esse host porem é valido testar com o "localhost"
+class ConnTest {
+  Future<void> testeSelect() async {
+    try {
+      print("Conectando ao banco de dados");
+
+      final conn = await MySQLConnection.createConnection(
+        host: "127.0.0.1",
         port: 3306,
-        user: 'root',
-        db: '', // preencher com o nome do banco local (usei o nome "bdeurekamap")
-        password: '')); // senha pessoal
+        userName: "root",
+        password: "",
+        databaseName: "bdeurekamap",
+      );
 
-    print('Conexão estabelecida. Executando consulta...');
-    var results = await conn.query(
-        'select email from usuariosapp'); // essa tabela serve unicamente para guardar os usuarios logados NO APP. contem colunas: idUsuario, email, senha, admin(default está para 0 que significa não é adm), data_criacao.
-    for (var row in results) {
-      print(row);
+      await conn.connect();
+
+      print("Conectado com sucesso");
+
+      var res = await conn.execute("SELECT * FROM usuarios");
+
+      for (final row in res.rows) {
+        print(row.assoc());
+      }
+
+      print("Fechando conexão");
+      await conn.close();
+    } catch (e) {
+      print("Erro ao conectar: ${e}");
     }
-
-    print('Consulta executada com sucesso. Fechando conexão...');
-    await conn.close();
-    print('Conexão fechada.');
-  } catch (e) {
-    print('Erro durante a conexão ou execução da consulta: $e');
   }
+}
+
+void main() {
+  test('ConnTest testeSelect', () async {
+    await ConnTest().testeSelect();
+  });
 }
