@@ -36,7 +36,7 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.6
   pathfinding: ^3.0.1
-  mysql1: ^0.20.0
+  mysql_client: ^0.0.27
   path: ^1.9.0
   widget_zoom: ^0.0.4
   flutter_login: ^5.0.0
