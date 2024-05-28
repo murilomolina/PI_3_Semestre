@@ -1,68 +1,75 @@
 import 'package:mysql_client/mysql_client.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class ConnTest {
-  Future<void> testeInsert() async {
+  Future<void> testeCadastro() async {
+    // Dado: Conexão com o banco feita com sucesso
+    await dotenv.load(fileName: "lib/assets/.env");
     try {
-      print("Conectando ao banco de dados");
-
       final conn = await MySQLConnection.createConnection(
-        host: "127.0.0.1",
-        port: 3306,
-        userName: "root",
-        password: "goodpassword",
+        host: dotenv.get("HOST_BD"),
+        port: int.parse(dotenv.get("PORT_BD")),
+        userName: dotenv.get("USUARIO_BD"),
+        password: dotenv.get("SENHA_BD"),
         databaseName: "bdeurekamap",
       );
 
       await conn.connect();
 
-      print("Conectado com sucesso");
+      await conn
+          .execute("DELETE FROM usuarios WHERE email = 'teste@email.com'");
 
-      var res = await conn.execute("DELETE FROM usuarios");
-      res = await conn.execute(
-          "INSERT INTO usuarios (email, senha) VALUES ('teste@email.com', '123')");
+      // Quando: insiro as informações e confirmo
+      String email = "teste@email.com";
+      String senha = "123";
 
-      print("Insert OK");
+      await conn.execute(
+          "INSERT INTO usuarios (email, senha) VALUES ('$email', '$senha')");
 
-      print("Fechando conexão");
+      // Então: deve mostrar uma mensagem de sucesso
+      print("Cadastro OK");
+
       await conn.close();
     } catch (e) {
       print("Erro ao conectar: ${e}");
     }
   }
 
-  Future<void> testeSelect() async {
+  Future<void> testeLogin() async {
+    // Dado: Conexão com o banco feita com sucesso
+    await dotenv.load(fileName: "lib/assets/.env");
     try {
-      print("Conectando ao banco de dados");
-
       final conn = await MySQLConnection.createConnection(
-        host: "127.0.0.1",
-        port: 3306,
-        userName: "root",
-        password: "goodpassword",
+        host: dotenv.get("HOST_BD"),
+        port: int.parse(dotenv.get("PORT_BD")),
+        userName: dotenv.get("USUARIO_BD"),
+        password: dotenv.get("SENHA_BD"),
         databaseName: "bdeurekamap",
       );
 
       await conn.connect();
 
-      print("Conectado com sucesso");
-
       var res = await conn.execute("SELECT * FROM usuarios", {});
 
-      bool emailEncontrado = false;
+      // Quando: insiro as informações e confirmo
+      String email = "teste@email.com";
+      String senha = "123";
+
+      bool loginOK = false;
       for (final row in res.rows) {
-        if (row.colAt(1) == 'teste@email.com') {
-          emailEncontrado = true;
+        if (row.colAt(1) == email && row.colAt(2) == senha) {
+          loginOK = true;
           break;
         }
       }
 
-      if (!emailEncontrado) {
-        print("Email teste@email.com não encontrado.");
+      // Então: deve mostrar uma mensagem de sucesso e fazer login
+      if (!loginOK) {
+        print("Falha no login");
       } else
-        print("Email teste@email.com encontrado.");
+        print("Login feito com sucesso");
 
-      print("Fechando conexão");
       await conn.close();
     } catch (e) {
       print("Erro ao conectar: ${e}");
@@ -70,12 +77,12 @@ class ConnTest {
   }
 }
 
-void main() {
-  test('ConnTest testeInsert', () async {
-    await ConnTest().testeInsert();
+void main() async{
+  test('ConnTest testeCadastro', () async {
+    await ConnTest().testeCadastro();
   });
 
-  test('ConnTest testeSelect', () async {
-    await ConnTest().testeSelect();
+  test('ConnTest testeLogin', () async {
+    await ConnTest().testeLogin();
   });
 }
