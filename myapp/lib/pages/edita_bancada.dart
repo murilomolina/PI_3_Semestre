@@ -19,8 +19,7 @@ class _EditaBancadaState extends State<EditaBancada> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
+    return Scaffold(
         appBar: AppBar(
         title: const Text('Editor de Bancadas'),
           // Adicionando o ícone de hambúrguer no AppBar
@@ -140,7 +139,6 @@ class _EditaBancadaState extends State<EditaBancada> {
             ),
           ),
         ),
-      ),
-    );
+      );
   }
 }

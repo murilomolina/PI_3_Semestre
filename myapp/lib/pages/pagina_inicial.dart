@@ -21,8 +21,7 @@ class _PaginaInicialState extends State<PaginaInicial> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
+    return Scaffold(
         appBar: AppBar(
         title: const Text('Tela Inicial'),
           // Adicionando o ícone de hambúrguer no AppBar
@@ -133,7 +132,6 @@ class _PaginaInicialState extends State<PaginaInicial> {
             ),
           ),
         ),
-      ),
-    );
+      );
   }
 }
