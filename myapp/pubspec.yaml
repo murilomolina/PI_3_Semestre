@@ -65,21 +65,10 @@
     # the material Icons class.
     uses-material-design: true
 
-<<<<<<< HEAD
-  # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.6
-  pathfinding: ^3.0.1
-  mysql_client: ^0.0.27
-  path: ^1.9.0
-  widget_zoom: ^0.0.4
-  flutter_login: ^5.0.0
-=======
     # To add assets to your application, add an assets section, like this:
     assets:
       - lib/assets/logo/logo_maua_provisorio.jpg
       - lib/assets/.env
->>>>>>> 6f9ffc7159e56192511f05bd89cd20dd8c50a367
 
     # An image asset can refer to one or more resolution-specific "variants", see
     # https://flutter.dev/assets-and-images/#resolution-aware

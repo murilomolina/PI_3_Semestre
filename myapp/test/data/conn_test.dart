@@ -1,27 +1,4 @@
 import 'package:mysql_client/mysql_client.dart';
-<<<<<<< HEAD
-
-main() async {
-  try {
-    print('Conectando ao banco de dados...');
-    final pool = MySQLConnectionPool(
-      host: '10.0.2.2',
-      port: 3306,
-      userName: 'root',
-      password: '',
-      maxConnections: 10,
-      databaseName: '', // optional,
-    );
-
-    var result = await pool.execute("select * from usuariosapp");
-    for (final row in result.rows) {
-      print(row.assoc());
-    }
-
-    pool.close();
-  } catch (e) {
-    print("Erro ao conectar");
-=======
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
@@ -57,7 +34,6 @@ class ConnTest {
     } catch (e) {
       print("Erro ao conectar: ${e}");
     }
->>>>>>> 6f9ffc7159e56192511f05bd89cd20dd8c50a367
   }
 
   Future<void> testeLogin() async {
