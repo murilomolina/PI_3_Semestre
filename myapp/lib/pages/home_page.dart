@@ -41,14 +41,14 @@ class HomeScreen extends StatelessWidget {
                 SizedBox(height: 20),
                 Text(
                   'Bem Vindo ao EurekaMap',
-                  style: TextStyle(fontSize: 24),
+                  style: TextStyle(fontSize: 34),
                 ),
                 SizedBox(height: 20),
                 Text(
                   'Clique em qualquer lugar para começar',
                   style: TextStyle(
                     fontFamily: 'Poppins',
-                    fontSize: 16,
+                    fontSize: 26,
                   ),
                 ),
               ],
