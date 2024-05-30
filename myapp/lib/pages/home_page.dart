@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:myapp/pages/tela_login.dart';
+
+void main() {
+  runApp(const MyApp());
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -25,28 +28,55 @@ class HomeScreen extends StatelessWidget {
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => const TelaLogin()),
+          MaterialPageRoute(builder: (context) => const LoginScreen()),
         );
       },
       child: Scaffold(
         body: Container(
           color: Colors.white,
-          child: Center(
+          child: const Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const SizedBox(height: 20),
-                const Text(
+                SizedBox(height: 20),
+                Text(
                   'Bem Vindo ao EurekaMap',
                   style: TextStyle(fontSize: 24),
                 ),
-                const SizedBox(height: 20),
-                const Text(
+                SizedBox(height: 20),
+                Text(
                   'Clique em qualquer lugar para começar',
-                  style: TextStyle(fontSize: 16),
+                  style: TextStyle(
+                    fontFamily: 'Poppins',
+                    fontSize: 16,
+                  ),
                 ),
               ],
             ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class LoginScreen extends StatelessWidget {
+  const LoginScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Container(
+        color: Colors.white,
+        child: const Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'Tela de Login',
+                style: TextStyle(fontSize: 24),
+              ),
+            ],
           ),
         ),
       ),
