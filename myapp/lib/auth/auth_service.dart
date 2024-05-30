@@ -1,12 +1,17 @@
 // Classe de simulação do serviço de autenticação
+import 'package:myapp/data/usuario_app.dart';
+
 class AuthService {
   // Simula o processo de login
-  Future<String> login(String name, String password) async {
+  Future<String> login(String email, String senha) async {
     // TEmpo para fazedr a pesquisa no banco
     await Future.delayed(const Duration(seconds: 2));
-    // Lógica de autenticação simulada
-    if (name == 'teste@gmail.com' && password == '1234') {
-      return ''; // se Login bem-sucedido retorna uma string vazia
+    List<UsuarioApp> usuarios = await consultaUsuariosApp();
+
+    for (final usuario in usuarios) {
+      if (usuario.email == email && usuario.senha == senha) {
+        return ''; // vazia pouis a função entende que se o retorno for vazio o login foi bem sucedido
+      }
     }
     return 'Nome de usuário ou senha inválidos'; // Mensagem de erro
   }
