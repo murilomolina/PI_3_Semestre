@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:myapp/data/conn.dart';
 import 'package:myapp/pages/edita_bancada.dart';
+import 'package:myapp/pages/exibe_consulta/lista_usuarios_page.dart';
 import 'package:myapp/pages/pagina_inicial.dart';
 
 class BancoDeDados extends StatelessWidget {
@@ -8,8 +8,7 @@ class BancoDeDados extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
+    return Scaffold(
         appBar: AppBar(
           title: const Text('Banco de Dados'),
           // Adicionando o ícone de hambúrguer no AppBar
@@ -82,6 +81,7 @@ class BancoDeDados extends StatelessWidget {
                     ElevatedButton(
                       // Botão posicionado no topo apenas por motivos de testes e exibição de como ele ira funcionar
                       onPressed: () {
+                        print("Clicou");
                         // Navigator.push(
                         //   context,
                         //   MaterialPageRoute(
@@ -89,7 +89,7 @@ class BancoDeDados extends StatelessWidget {
                         //   ),
                         // );
                       },
-                      child: const Text('Pressione para inserir usuário'),
+                      child: const Text('Pressione para inserir Bancada'),
                     ),
                     const SizedBox(
                       height: 10.0,
@@ -97,17 +97,15 @@ class BancoDeDados extends StatelessWidget {
                     ElevatedButton(
                       // Botão posicionado no topo apenas por motivos de testes e exibição de como ele ira funcionar
                       onPressed: () {
-                        conn();
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(
-                        //     // ignore: prefer_const_constructors
-                        //     builder: (context) =>  bdd(),
-                        //   ),
-                        // );
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const ListaUsuariosPage(),
+                          ),
+                        );
                       },
                       child: const Text(
-                          'Pressione para visualizar a tabela de usuários'),
+                          'Pressione para visualizar todos os usuários do EurekaMap'),
                     ),
                   ],
                 ),
@@ -115,7 +113,6 @@ class BancoDeDados extends StatelessWidget {
             ),
           ),
         ),
-      ),
-    );
+      );
   }
 }
