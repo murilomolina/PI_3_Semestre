@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:myapp/pages/edita_bancada.dart';
-import 'package:myapp/pages/exibe_consulta/lista_usuarios_page.dart';
-import 'package:myapp/pages/pagina_inicial.dart';
+import 'package:myapp/pages/banco_de_dados/exibe_alunos.dart';
+import 'package:myapp/pages/banco_de_dados/insere_aluno.dart';
+import 'package:myapp/pages/banco_de_dados/lista_usuarios_page.dart';
+import 'package:myapp/utils/drawers.dart';
 
 class BancoDeDados extends StatelessWidget {
   const BancoDeDados({super.key});
@@ -25,47 +26,7 @@ class BancoDeDados extends StatelessWidget {
           ),
           backgroundColor: Colors.blue[600],
         ),
-        drawer: Drawer(
-          // Definindo o Drawer com os botões adicionais
-          child: ListView(
-            padding: EdgeInsets.zero,
-            children: <Widget>[
-              const DrawerHeader(
-                decoration: BoxDecoration(
-                  color: Colors.blue,
-                ),
-                child: Text(
-                    'Opções'),
-              ),
-              ListTile(
-                title: const Text('Página inicial'),
-                onTap: () {
-                  // Lógica para ação ao pressionar Opção 1
-                  Navigator.pop(context); // Fechar o menu
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const PaginaInicial(),
-                    ),
-                  );
-                },
-              ),
-              ListTile( 
-                title: const Text('Editor de Mapa'),
-                onTap: () {
-                  // Lógica para ação ao pressionar Opção 2
-                  Navigator.pop(context); // Fechar o menu
-                  Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const EditaBancada(), // atualmente apenas para motivos de exibição de rota, foi deixado como destino a página de banco de dados.
-                          ),
-                        );
-                },
-              ),
-            ],
-          ),
-        ),
+        drawer: drawerBancoDeDados(context),
         body: SingleChildScrollView(
           // mudei para esse modo afim de deixar toda a página scrollavel
           child: Padding(
@@ -81,19 +42,33 @@ class BancoDeDados extends StatelessWidget {
                     ElevatedButton(
                       // Botão posicionado no topo apenas por motivos de testes e exibição de como ele ira funcionar
                       onPressed: () {
-                        print("Clicou");
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(
-                        //     builder: (context) => const UserInsertScreen(),
-                        //   ),
-                        // );
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const ExibeAluno(),
+                          ),
+                        );
                       },
-                      child: const Text('Pressione para inserir Bancada'),
+                      child: const Text('Alunos cadastrados'),
                     ),
                     const SizedBox(
                       height: 10.0,
-                    ), // espaçamento entre os botões
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => InsereAluno(),
+                          ),
+                        );
+                      },
+                      child: const Text(
+                          'Inserir aluno'),
+                    ),
+                     const SizedBox(
+                      height: 10.0,
+                    ),
                     ElevatedButton(
                       // Botão posicionado no topo apenas por motivos de testes e exibição de como ele ira funcionar
                       onPressed: () {
@@ -105,8 +80,9 @@ class BancoDeDados extends StatelessWidget {
                         );
                       },
                       child: const Text(
-                          'Pressione para visualizar todos os usuários do EurekaMap'),
+                          'Usuários do EurekaMap'),
                     ),
+                    
                   ],
                 ),
               ],

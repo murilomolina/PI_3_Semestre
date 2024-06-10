@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/data/aluno.dart';
+import 'package:myapp/utils/drawers.dart';
 
 class InsereAluno extends StatelessWidget {
   final _nomeController = TextEditingController();
@@ -12,8 +13,29 @@ class InsereAluno extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Inserir Aluno'),
+          title: const Text('Inserir Aluno'),
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back), 
+            onPressed: () {
+              Navigator.of(context).pop(); // Fecha a tela atual
+            },
+          ),
+          actions: [
+            Builder(
+              builder: (BuildContext context) {
+                return IconButton(
+                  icon: const Icon(Icons.menu), // Ícone de hambúrguer
+                  onPressed: () {
+                    // Ao ser pressionado, abre o menu lateral
+                    Scaffold.of(context).openDrawer();
+                  },
+                );
+              },
+            ),
+          ],
+       backgroundColor: Colors.blue[600],
       ),
+      drawer: drawerPaginasBancoDeDados(context),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(

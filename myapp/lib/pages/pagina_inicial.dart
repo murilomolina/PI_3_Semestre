@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:myapp/pages/banco_de_dados.dart';
-import 'package:myapp/pages/edita_bancada.dart';
+import 'package:myapp/utils/drawers.dart';
 import 'package:myapp/widgets/cria_grid.dart';
 import 'package:myapp/widgets/desenha_grid.dart';
 import 'package:widget_zoom/widget_zoom.dart';
@@ -38,44 +36,7 @@ class _PaginaInicialState extends State<PaginaInicial> {
           ),
           backgroundColor: Colors.blue[600],
         ),
-        drawer: Drawer(
-          // Definindo o Drawer com os botões adicionais
-          child: ListView(
-            padding: EdgeInsets.zero,
-            children: <Widget>[
-              const DrawerHeader(
-                decoration: BoxDecoration(
-                  color: Colors.blue,
-                ),
-                child: Text('Opções'),
-              ),
-              ListTile(
-                title: const Text('Banco de Dados'),
-                onTap: () {
-                  Navigator.pop(context); // Fechar o menu
-                  Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const BancoDeDados(),
-                          ),
-                        );
-                },
-              ),
-              ListTile( 
-                title: const Text('Editor de Mapa'),
-                onTap: () {
-                  Navigator.pop(context); // Fechar o menu
-                  Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const EditaBancada(), 
-                          ),
-                        );
-                },
-              ),
-            ],
-          ),
-        ),
+        drawer: drawerPaginaInicial(context),
         body:  SingleChildScrollView(
           // mudei para esse modo afim de deixar toda a página scrollavel
           child: Padding(
