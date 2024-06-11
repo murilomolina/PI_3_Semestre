@@ -6,6 +6,7 @@ import 'package:myapp/pages/pagina_inicial.dart';
 import 'package:myapp/widgets/pinta_borda.dart';
 import 'package:myapp/widgets/edita_container.dart';
 import 'dart:async';
+import 'dart:math';
 
 Timer? timerUpdate;
 
@@ -47,7 +48,8 @@ class _DesenhaGridState extends State<DesenhaGrid> {
     try {
       if (coordenadas.isNotEmpty) {
         // Acha um caminho originando das coordenadas 1,1 indo até 9,9
-        path = pathFinder.findPath(1, 1, coordenadas[0], coordenadas[1], grid.clone());
+        path = pathFinder.findPath(
+            1, 1, coordenadas[0], coordenadas[1], grid.clone());
         // Chama o nosso metodo para filtrar o path
         pathProcessor.processPath(path);
         // Coloca os valores filtrados em novas variaveis
@@ -69,16 +71,15 @@ class _DesenhaGridState extends State<DesenhaGrid> {
             int col = index % gridData.length;
             Color color = Colors.white;
             // Reseta o contador para não passar de 100 e quebrar a lista do editor
-            if(containerNum > 100) containerNum = 1;
+            if (containerNum > 100) containerNum = 1;
             int num = containerNum++;
-            bool isTopo = (row == 0 && col > 0 && col < 9);
-            bool isBase = (row == 9 && col > 0 && col < 9);
-            bool isEsquerda = (col == 0 && row > 0 && row < 9);
-            bool isDireita = (col == 9 && row > 0 && row < 9);
-            
-            if ((cols.isNotEmpty && rows.isNotEmpty) && (cols[pos] == col && rows[pos] == row)) {
+
+            if ((cols.isNotEmpty && rows.isNotEmpty) &&
+                (cols[pos] == col && rows[pos] == row)) {
               // Se for a última posição (destino final), define uma cor diferente
-              if (cols[pos] == col && rows[pos] == row && pos == cols.length - 1) {
+              if (cols[pos] == col &&
+                  rows[pos] == row &&
+                  pos == cols.length - 1) {
                 color = Colors.indigo; // Cor para o destino final
               } else {
                 color = Colors.blue; // Cor para o caminho percorrido
@@ -89,24 +90,26 @@ class _DesenhaGridState extends State<DesenhaGrid> {
               }
             }
 
-            // Verificar se o quadrado atual é um obstáculo (valor 1) ou não
-            bool isObstacle = gridData[row][col] == 1 && col > 0 && col < 9 && row > 0 && row < 9;
-
-            // Gera uma borda base para todos os containers
-            Border borda = pintor.pintaBorda(isObstacle, isTopo, isBase, isEsquerda, isDireita);
-            // Caso a lista esteja vazia na posição deste container, adicionar as opções base
-            if (bordas.length < num){
-              bordas.add(borda);
-              cores.add(color);
-            }
-          
             // Devolve o container que vai ser a grid da coordenada da atual iteração
             return Container(
               decoration: BoxDecoration(
-                color: color == Colors.indigo|| color == Colors.blue ? color: cores[num-1],
-                border: color == Colors.indigo|| color == Colors.blue ? Border.all(color: Colors.transparent): bordas[num-1]
+                  color: color == Colors.indigo || color == Colors.blue
+                      ? color
+                      : cores[num - 1],
+                  border: color == Colors.indigo || color == Colors.blue
+                      ? Border.all(color: Colors.transparent)
+                      : bordas[num - 1]
               ),
-                 
+              child: OverflowBox(
+                minHeight: 0,
+                minWidth: 0,
+                maxHeight: double.infinity,
+                maxWidth: double.infinity,
+                child: Transform.rotate(
+                    angle: angulo[num - 1] * pi / 180,
+                    child: Text(texto[num - 1],
+                        style: TextStyle(fontSize: tamanho[num - 1]))),
+              )
             );
           },
         );
@@ -128,7 +131,7 @@ class _DesenhaGridState extends State<DesenhaGrid> {
         int row = index ~/ gridData.length;
         int col = index % gridData.length;
         Color color = Colors.white;
-        if(containerNum > 100) containerNum = 1;
+        if (containerNum > 100) containerNum = 1;
         int num = containerNum++;
         bool isTopo = (row == 0 && col > 0 && col < 9);
         bool isBase = (row == 9 && col > 0 && col < 9);
@@ -136,21 +139,33 @@ class _DesenhaGridState extends State<DesenhaGrid> {
         bool isDireita = (col == 9 && row > 0 && row < 9);
 
         // Verificar se o quadrado atual é um obstáculo (valor 1) ou não
-        bool isObstacle = gridData[row][col] == 1 && col > 0 && col < 9 && row > 0 && row < 9;
+        bool isObstacle =
+            gridData[row][col] == 1 && col > 0 && col < 9 && row > 0 && row < 9;
 
-        Border borda = pintor.pintaBorda(isObstacle, isTopo, isBase, isEsquerda, isDireita);
-        if (bordas.length < num){
+        Border borda = pintor.pintaBorda(
+            isObstacle, isTopo, isBase, isEsquerda, isDireita);
+        if (bordas.length < num) {
           bordas.add(borda);
           cores.add(color);
+          texto.add("");
+          angulo.add(0);
+          tamanho.add(24);
         }
 
         // Devolve o container que vai ser a grid da coordenada da atual iteração
         return Container(
-          decoration: BoxDecoration(
-            color: cores[num-1],
-            border: bordas[num-1]
-          ),
-          
+          decoration:
+              BoxDecoration(color: cores[num - 1], border: bordas[num - 1]),
+          child: OverflowBox(
+            minHeight: 0,
+            minWidth: 0,
+            maxHeight: double.infinity,
+            maxWidth: double.infinity,
+            child: Transform.rotate(
+                angle: angulo[num - 1] * pi / 180,
+                child: Text(texto[num - 1],
+                    style: TextStyle(fontSize: tamanho[num - 1]))),
+          )
         );
       },
     );
