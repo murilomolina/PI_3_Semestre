@@ -33,8 +33,8 @@ Future<List<Aluno>> consultaAluno() async {
     for (final row in res.rows) {
       alunos.add(Aluno(
         idUsuario : row.colAt(0),
-        email1: row.colAt(1)  ,
-        nome: row.colAt(2)  ,
+        nome: row.colAt(1)  ,
+        email1: row.colAt(2)  ,
         cpf: row.colAt(3),
       ));
     }
@@ -66,5 +66,36 @@ insereAluno(nome, email1,cpf) async {
     return '';
     } catch (e) {
     return "Erro ao conectar: $e";
+  }
+}
+
+deletaAluno(context, aluno) async {
+  var nome = aluno.nome;
+  var email = aluno.email1;
+  var cpf = aluno.cpf;
+
+  if (nome == '' && email == '') return "Erro campos de nome e email vazios";
+
+  await dotenv.load(fileName: "lib/assets/.env");
+  try {
+    final conn = await MySQLConnection.createConnection(
+      host: dotenv.get("HOST_BD"),
+      port: int.parse(dotenv.get("PORT_BD")),
+      userName: dotenv.get("USUARIO_BD"),
+      password: dotenv.get("SENHA_BD"),
+      databaseName: "bdeurekamap",
+    );
+
+    await conn.connect();
+    print('Conectou');
+
+    await conn.execute("DELETE FROM aluno WHERE nome = '$nome' AND email1 = '$email' AND cpf = '$cpf'");
+    print("Deletou");
+
+    await conn.close();
+
+    return '';
+  } catch (e) {
+    return "Erro ao tentar excluir o aluno ($nome): $e";
   }
 }
