@@ -3,7 +3,7 @@ import 'package:myapp/data/consultas_grid.dart';
 import 'package:myapp/utils/drawers.dart';
 import 'package:myapp/widgets/cria_grid.dart';
 import 'package:myapp/widgets/desenha_grid.dart';
-import 'package:widget_zoom/widget_zoom.dart';
+import 'dart:math';
 
 
 //funçao usando regex pra otimizar o input do usuarioa
@@ -107,24 +107,58 @@ class _PaginaInicialState extends State<PaginaInicial> {
                   style: TextStyle(color: Colors.white),
                   ),
                 ),
-                // ignore: prefer_const_constructors
-                WidgetZoom(
-                  heroAnimationTag: 'tag',
-                  zoomWidget:
-                      // ignore: prefer_const_constructors
-                      SizedBox(
-                    // o vs sugere que deixe essa caixa como uma const, porem se deixar o grid nunca se altera (deixando de fazer sua unica função)
-                    height: 800,
-                    child: Stack(
-                      children: [
-                        DesenhaGrid(),
-                        Positioned(
-                          top: 55,
-                          left: 110,
-                          child: Text("Arquibancada", style: TextStyle(color: Colors.purple[900], fontSize: 20, fontWeight: FontWeight.bold),)
-                        )
-                      ],
-                    ),
+                SizedBox(
+                  // o vs sugere que deixe essa caixa como uma const, porem se deixar o grid nunca se altera (deixando de fazer sua unica função)
+                  height: 800,
+                  child: Stack(
+                    children: [
+                      DesenhaGrid(),
+                      Positioned(
+                        top: 55,
+                        left: 110,
+                        child: Text("Arquibancada", style: TextStyle(color: Colors.purple[900], fontSize: 20, fontWeight: FontWeight.bold),)
+                      ),
+                      Positioned(
+                        top: 250,
+                        left: 0,
+                        child: Transform.rotate(angle: 90 * pi / 180, child: const Text("Corredor 1", style: TextStyle(color: Colors.red, fontSize: 16, fontWeight: FontWeight.bold),),)
+                      ),
+                      Positioned(
+                        top: 550,
+                        left: 0,
+                        child: Transform.rotate(angle: 90 * pi / 180, child: const Text("Corredor 1", style: TextStyle(color: Colors.red, fontSize: 16, fontWeight: FontWeight.bold),),)
+                      ),
+                      Positioned(
+                        top: 250,
+                        left: 65,
+                        child: Transform.rotate(angle: 90 * pi / 180, child: const Text("Corredor 2", style: TextStyle(color: Colors.red, fontSize: 16, fontWeight: FontWeight.bold),),)
+                      ),
+                      Positioned(
+                        top: 550,
+                        left: 65,
+                        child: Transform.rotate(angle: 90 * pi / 180, child: const Text("Corredor 2", style: TextStyle(color: Colors.red, fontSize: 16, fontWeight: FontWeight.bold),),)
+                      ),
+                      Positioned(
+                        top: 250,
+                        left: 143,
+                        child: Transform.rotate(angle: 90 * pi / 180, child: const Text("Corredor 3", style: TextStyle(color: Colors.red, fontSize: 16, fontWeight: FontWeight.bold),),)
+                      ),
+                      Positioned(
+                        top: 550,
+                        left: 143,
+                        child: Transform.rotate(angle: 90 * pi / 180, child: const Text("Corredor 3", style: TextStyle(color: Colors.red, fontSize: 16, fontWeight: FontWeight.bold),),)
+                      ),
+                      Positioned(
+                        top: 250,
+                        left: 207,
+                        child: Transform.rotate(angle: 90 * pi / 180, child: const Text("Corredor 4", style: TextStyle(color: Colors.red, fontSize: 16, fontWeight: FontWeight.bold),),)
+                      ),
+                      Positioned(
+                        top: 550,
+                        left: 207,
+                        child: Transform.rotate(angle: 90 * pi / 180, child: const Text("Corredor 4", style: TextStyle(color: Colors.red, fontSize: 16, fontWeight: FontWeight.bold),),)
+                      ),
+                    ],
                   ),
                 ),
               ],
