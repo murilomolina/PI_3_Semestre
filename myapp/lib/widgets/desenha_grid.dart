@@ -109,13 +109,12 @@ class _DesenhaGridState extends State<DesenhaGrid> {
     // Marcador da posição atual das listas de cols e rows
     try {
       if (fazerBusca) {
-        path = pathFinder.findPath(5, 70, coordenadas[int.parse(idEstande)-1][0], coordenadas[int.parse(idEstande)-1][1], grid.clone());;
+        path = pathFinder.findPath(5, 70, coordenadas[int.parse(idEstande)-1][0], coordenadas[int.parse(idEstande)-1][1], grid.clone());
         // Chama o nosso metodo para filtrar o path
         pathProcessor.processPath(path);
         // Coloca os valores filtrados em novas variaveis
         var rows = pathProcessor.rows;
         var cols = pathProcessor.cols;
-        print(path);
         return GridView.builder(
           // Limita o maximo de containers para 2272
           itemCount: 2272,
