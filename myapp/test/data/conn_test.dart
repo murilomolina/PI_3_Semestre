@@ -18,14 +18,14 @@ class ConnTest {
       await conn.connect();
 
       await conn
-          .execute("DELETE FROM usuarios WHERE email = 'teste@email.com'");
+          .execute("DELETE FROM usuariosapp WHERE email = 'teste@email.com'");
 
       // Quando: insiro as informações e confirmo
       String email = "teste@email.com";
       String senha = "123";
 
       await conn.execute(
-          "INSERT INTO usuarios (email, senha) VALUES ('$email', '$senha')");
+          "INSERT INTO usuariosapp (email, senha) VALUES ('$email', '$senha')");
 
       // Então: deve mostrar uma mensagem de sucesso
       print("Cadastro OK");
@@ -50,7 +50,7 @@ class ConnTest {
 
       await conn.connect();
 
-      var res = await conn.execute("SELECT * FROM usuarios", {});
+      var res = await conn.execute("SELECT * FROM usuariosapp", {});
 
       // Quando: insiro as informações e confirmo
       String email = "teste@email.com";

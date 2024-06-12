@@ -74,7 +74,7 @@ class _PaginaInicialState extends State<PaginaInicial> {
                       // ignore: prefer_const_constructors
                       SizedBox(
                     // o vs sugere que deixe essa caixa como uma const, porem se deixar o grid nunca se altera (deixando de fazer sua unica função)
-                    height: 400,
+                    height: 550,
                     child: DesenhaGrid(),
                   ),
                 ),
