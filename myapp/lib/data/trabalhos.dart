@@ -74,13 +74,7 @@ insereTrabalho(titulo, int orientador, int coorientador, resumo, int idEstande) 
     return "Erro ao conectar: $e";
   }
 }
-editaTrabalho( 
-  int idTrabalho,
-  titulo,
-  int idOrientador,
-  int? idCoorientador,
-  resumo,
-  int? idEstande,
+editaTrabalho(int idTrabalho, titulo, int idOrientador, int? idCoorientador, resumo, int? idEstande,
   ) async {
   if (titulo == '' || idOrientador < 0) {
     return "Título ou orientador não foram preenchidos corretamente. Abos devem ser preenchidos!!";
@@ -130,16 +124,12 @@ editaTrabalho(
     // Montar a query final
     query += updates.join(", ");
     query += " WHERE idTrabalho = $idTrabalho";
-    
-    // Executar a query
+    await conn.connect();
     await conn.execute(query);
     
-    // Fechar a conexão com o banco de dados
     await conn.close();
     
-    // Retornar uma string vazia em caso de sucesso
     return '';
-    
   } catch (e) {
     // Capturar e imprimir o erro, retornar uma mensagem de erro
     print("Erro ao tentar editar o trabalho: $e");

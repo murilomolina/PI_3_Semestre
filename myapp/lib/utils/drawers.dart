@@ -73,20 +73,6 @@ Drawer drawerEditaBancada(context) {
           },
         ),
         ListTile(
-          title: const Text('Editor de Mapa'),
-          onTap: () {
-            // Lógica para ação ao pressionar Opção 2
-            Navigator.pop(context); // Fechar o menu
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) =>
-                    const EditaBancada(), // atualmente apenas para motivos de exibição de rota, foi deixado como destino a página de banco de dados.
-              ),
-            );
-          },
-        ),
-        ListTile(
           title: const Text('Tela Inicial'),
           onTap: () {
             // Lógica para ação ao pressionar Opção 2
