@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/data/consultas_grid.dart';
 import 'package:myapp/utils/drawers.dart';
-import 'package:myapp/widgets/cria_grid.dart';
 import 'package:myapp/widgets/desenha_grid.dart';
 import 'dart:math';
 
@@ -17,7 +16,8 @@ String limpaString(String input) {
   return input;
 }
 
-List<int> coordenadas = [];
+List<List<int>> coordenadas = [[7, 46], [14, 30]];
+bool fazerBusca = false;
 // deixei global a fim de quando for utilizar no grid ficar de facil acesso (fica ao critério seu (vini) quando for arrumar o grid)
 List<Sugestoes> sugestoes = [];
 var resumo = "";
@@ -92,14 +92,17 @@ class _PaginaInicialState extends State<PaginaInicial> {
                         print("idtrabalho: $idTrabalho");
                         print("idaluno: $idAluno");
                         print("titulo: $titulo");
-
+                        fazerBusca = true;
                     } else {
                       print("Sem sugestões encontradas");
                     }
                   } else {
                     print("Nenhuma entrada de texto fornecida");
+                    fazerBusca = false;
                   }
-                  CriaGrid();
+                  setState(() {  
+                    DesenhaGrid();
+                  });
                 },
                 color: Colors.blue,
                 child: const Text(

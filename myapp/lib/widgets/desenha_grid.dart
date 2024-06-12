@@ -101,41 +101,40 @@ class _DesenhaGridState extends State<DesenhaGrid> {
     var pintor = PintaBorda();
     var grid = Grid(32, 71, gridData);
     // Cria um pathfinder usando o algoritimo A*
-    var pathFinder = AStarFinder();
+    var pathFinder = AStarFinder(weight: 1);
     // Cria um pathProcessor pra tratar os dados das coordenadas encontradas pelo pathfinder
     var pathProcessor = PathProcessor();
     // Lista do tipo usado pelo pathFinder
     List<List<dynamic>> path;
     // Marcador da posição atual das listas de cols e rows
-    int pos = 0;
     try {
-      if (coordenadas.isNotEmpty) {
-        // Acha um caminho originando das coordenadas 1,1 indo até 9,9
-        path = pathFinder.findPath(
-            1, 12, coordenadas[0], coordenadas[1], grid.clone());
+      if (fazerBusca) {
+        path = pathFinder.findPath(5, 70, coordenadas[int.parse(idEstande)-1][0], coordenadas[int.parse(idEstande)-1][1], grid.clone());;
         // Chama o nosso metodo para filtrar o path
         pathProcessor.processPath(path);
         // Coloca os valores filtrados em novas variaveis
         var rows = pathProcessor.rows;
         var cols = pathProcessor.cols;
-        // Reseta a pos para novas coordenadas enviadas pelo usuario
-        pos = 0;
-
+        print(path);
         return GridView.builder(
-          // Limita o maximo de containers para 100
+          // Limita o maximo de containers para 2272
           itemCount: 2272,
+          physics: const NeverScrollableScrollPhysics(),
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            // Limita o maximo de colunas em 10
+            // Limita o maximo de colunas em 32
             crossAxisCount: 32,
           ),
           itemBuilder: (context, index) {
             // Descobre a posição da coluna e fileira da iteração atual
             int row = rowAtual;
-            if (colAtual >= 32) {
+            int col = colAtual;
+            if (colAtual == 31) {
               rowAtual++;
               colAtual = 0;
+            } else {
+              colAtual++;
             }
-            int col = colAtual++;
+            if (rowAtual >= 71) rowAtual = 0;
             Color color = Colors.white;
             if (containerNum > 2272){
               containerNum = 1;
@@ -144,19 +143,15 @@ class _DesenhaGridState extends State<DesenhaGrid> {
             }
             int num = containerNum++;
 
-            if ((cols.isNotEmpty && rows.isNotEmpty) &&
-                (cols[pos] == col && rows[pos] == row)) {
-              // Se for a última posição (destino final), define uma cor diferente
-              if (cols[pos] == col &&
-                  rows[pos] == row &&
-                  pos == cols.length - 1) {
-                color = Colors.indigo; // Cor para o destino final
-              } else {
-                color = Colors.blue; // Cor para o caminho percorrido
-              }
-              // Passa a pos pro proximo index de cols e rows
-              if (pos < cols.length - 1) {
-                pos++;
+            for (int i = 0; i < path.length; i++){
+              // Por algum motivo o caminho sempre fica 1 tile pra direita sem o col+1. Como que aumentar o col em 1 faz ir pra equerda eu não sei ¯\_(ツ)_/¯
+              if (cols[i] == col+1 && rows[i] == row) {
+                // Se for a última iição (destino final), define uma cor diferente
+                if (i == path.length - 1) {
+                  color = Colors.indigo; // Cor para o destino final
+                } else {
+                  color = Colors.blue; // Cor para o caminho percorrido
+                }
               }
             }
 
@@ -167,7 +162,7 @@ class _DesenhaGridState extends State<DesenhaGrid> {
                       ? color
                       : cores[num - 1],
                   border: color == Colors.indigo || color == Colors.blue
-                      ? Border.all(color: Colors.transparent)
+                      ? Border.all(color: Colors.black)
                       : bordas[num - 1]
               ),
               child: OverflowBox(
@@ -186,13 +181,13 @@ class _DesenhaGridState extends State<DesenhaGrid> {
       }
     } catch (e) {
       // previne erros no display caso uma coordenada inalcancavel seja inserida, passar a mensagem na tela para o usuario no futuro
-      print("Escolha uma coordenada que pode ser alcancada");
+      print(e);
     }
     // Monta o grid sem pathfinding
     return GridView.builder(
       // Limita o maximo de containers para 100
       itemCount: 2272,
-      physics: NeverScrollableScrollPhysics(),
+      physics: const NeverScrollableScrollPhysics(),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         // Limita o maximo de colunas em 10
         crossAxisCount: 32,
@@ -237,7 +232,7 @@ class _DesenhaGridState extends State<DesenhaGrid> {
         // Devolve o container que vai ser a grid da coordenada da atual iteração
         return Container(
           decoration:
-              BoxDecoration(color: isObstacle ? const Color.fromARGB(100, 150, 150, 150) : cores[num - 1], border: bordas[num - 1]),
+              BoxDecoration(color: cores[num - 1], border: bordas[num - 1]),
           child: OverflowBox(
             minHeight: 0,
             minWidth: 0,
