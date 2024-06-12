@@ -192,6 +192,7 @@ class _DesenhaGridState extends State<DesenhaGrid> {
     return GridView.builder(
       // Limita o maximo de containers para 100
       itemCount: 2272,
+      physics: NeverScrollableScrollPhysics(),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         // Limita o maximo de colunas em 10
         crossAxisCount: 32,

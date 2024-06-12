@@ -67,17 +67,7 @@ class _PaginaInicialState extends State<PaginaInicial> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                // ignore: prefer_const_constructors
-                WidgetZoom(
-                  heroAnimationTag: 'tag',
-                  zoomWidget:
-                      // ignore: prefer_const_constructors
-                      SizedBox(
-                    // o vs sugere que deixe essa caixa como uma const, porem se deixar o grid nunca se altera (deixando de fazer sua unica função)
-                    height: 550,
-                    child: DesenhaGrid(),
-                  ),
-                ),
+                // Cria o botao para inserir coordenadas
                 TextField(
                   controller: inputUsuario,
                   decoration: const InputDecoration(
@@ -85,7 +75,6 @@ class _PaginaInicialState extends State<PaginaInicial> {
                     hintText: "Insira o local desejado",
                   ),
                 ),
-                // Cria o botao para inserir coordenadas
                 MaterialButton(
                 onPressed: () async {
                   // nBusca++;
@@ -117,7 +106,27 @@ class _PaginaInicialState extends State<PaginaInicial> {
                   "Enviar",
                   style: TextStyle(color: Colors.white),
                   ),
-                )
+                ),
+                // ignore: prefer_const_constructors
+                WidgetZoom(
+                  heroAnimationTag: 'tag',
+                  zoomWidget:
+                      // ignore: prefer_const_constructors
+                      SizedBox(
+                    // o vs sugere que deixe essa caixa como uma const, porem se deixar o grid nunca se altera (deixando de fazer sua unica função)
+                    height: 800,
+                    child: Stack(
+                      children: [
+                        DesenhaGrid(),
+                        Positioned(
+                          top: 55,
+                          left: 110,
+                          child: Text("Arquibancada", style: TextStyle(color: Colors.purple[900], fontSize: 20, fontWeight: FontWeight.bold),)
+                        )
+                      ],
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
