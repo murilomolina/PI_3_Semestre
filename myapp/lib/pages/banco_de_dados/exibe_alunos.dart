@@ -138,6 +138,13 @@ void caixaExclusao(BuildContext context, Aluno aluno) {
                 // Atualiza a lista de alunos após a exclusão
                 _alunosFuture = consultaAluno();
                 setState(() {}); // atualiza a tela
+                // Exibe uma mensagem de sucesso
+                // ignore: use_build_context_synchronously
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Aluno excluído com sucesso'),
+                  ),
+                );
               },
             ),
           ],

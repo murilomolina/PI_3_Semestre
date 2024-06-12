@@ -145,6 +145,13 @@ class _ListaUsuariosPageState extends State<ListaUsuariosPage> {
                 // Atualiza a lista de usuarioApps após a exclusão
                 _usuariosAppFuture = consultaUsuariosApp();
                 setState(() {}); // atualiza a tela
+                // Exibe uma mensagem de sucesso
+                // ignore: use_build_context_synchronously
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Usuário excluído com sucesso'),
+                  ),
+                );
               },
             ),
           ],
