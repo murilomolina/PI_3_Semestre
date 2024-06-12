@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/pages/banco_de_dados/exibe_alunos.dart';
+import 'package:myapp/pages/banco_de_dados/exibe_trabalhos.dart';
 import 'package:myapp/pages/banco_de_dados/insere_aluno.dart';
+import 'package:myapp/pages/banco_de_dados/insere_trabalho.dart';
 import 'package:myapp/pages/banco_de_dados/lista_usuarios_page.dart';
 import 'package:myapp/utils/drawers.dart';
 
@@ -82,7 +84,37 @@ class BancoDeDados extends StatelessWidget {
                       child: const Text(
                           'Usuários do EurekaMap'),
                     ),
-                    
+                     const SizedBox(
+                      height: 10.0,
+                    ),
+                    ElevatedButton(
+                      // Botão posicionado no topo apenas por motivos de testes e exibição de como ele ira funcionar
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const ExibeTrabalhos(),
+                          ),
+                        );
+                      },
+                      child: const Text(
+                          'Trabalhos'),
+                    ),
+                     const SizedBox(
+                      height: 10.0,
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => InsereTrabalho(),
+                          ),
+                        );
+                      },
+                      child: const Text(
+                          'Inserir Trabalho'),
+                    ),
                   ],
                 ),
               ],
