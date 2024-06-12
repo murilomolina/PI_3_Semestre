@@ -93,7 +93,17 @@ class _ExibeAlunoState extends State<ExibeAluno> {
                             Text(aluno.cpf),
                           ],
                         ),
-                        onTap: () => caixaExclusao(context, aluno)
+                        trailing: ElevatedButton(
+                          style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all<Color>(Colors.red), // Cor de fundo
+                              foregroundColor: MaterialStateProperty.all<Color>(Colors.white), // Cor do texto
+                            ),
+                          onPressed: () {
+                            caixaExclusao(context, aluno);
+                          },
+                          child: Text('Excluir'),
+                          
+                        ),
                       );
                     },
                   );
@@ -107,32 +117,32 @@ class _ExibeAlunoState extends State<ExibeAluno> {
   }
 
 void caixaExclusao(BuildContext context, Aluno aluno) {
-  showDialog(
-    context: context,
-    builder: (BuildContext dialogContext) {
-      return AlertDialog(
-        title: const Text('Excluir Aluno'),
-        content: Text('Deseja excluir o aluno ${aluno.nome}?'),
-        actions: [
-          TextButton(
-            child: const Text('Cancelar'),
-            onPressed: () {
-              Navigator.of(dialogContext).pop();
-            },
-          ),
-          TextButton(
-            child: const Text('Excluir'),
-            onPressed: () async {
-              Navigator.of(dialogContext).pop();
-              await deletaAluno(context, aluno);
-              // Atualiza a lista de alunos após a exclusão
-              _alunosFuture = consultaAluno();
-              setState(() {}); // atualiza a tela
-            },
-          ),
-        ],
-      );
-    },
-  );
-}
+    showDialog(
+      context: context,
+      builder: (BuildContext dialogContext) {
+        return AlertDialog(
+          title: const Text('Excluir Aluno'),
+          content: Text('Deseja excluir o aluno ${aluno.nome}?'),
+          actions: [
+            TextButton(
+              child: const Text('Cancelar'),
+              onPressed: () {
+                Navigator.of(dialogContext).pop();
+              },
+            ),
+            TextButton(
+              child: const Text('Excluir'),
+              onPressed: () async {
+                Navigator.of(dialogContext).pop();
+                await deletaAluno(context, aluno);
+                // Atualiza a lista de alunos após a exclusão
+                _alunosFuture = consultaAluno();
+                setState(() {}); // atualiza a tela
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 }
