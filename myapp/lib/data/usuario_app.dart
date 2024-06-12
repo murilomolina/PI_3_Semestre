@@ -74,3 +74,31 @@ insereUsuarioApp(email, senha) async {
     return "Erro ao conectar: $e";
   }
 }
+deletaUsuarioApp(context, usuario) async {
+  var email = usuario.email;
+  if (email == '') return "Erro campo email vazio";
+
+  await dotenv.load(fileName: "lib/assets/.env");
+  try {
+    final conn = await MySQLConnection.createConnection(
+      host: dotenv.get("HOST_BD"),
+      port: int.parse(dotenv.get("PORT_BD")),
+      userName: dotenv.get("USUARIO_BD"),
+      password: dotenv.get("SENHA_BD"),
+      databaseName: "bdeurekamap",
+    );
+
+    await conn.connect();
+    print('Conectou');
+
+    await conn.execute("DELETE FROM usuariosapp WHERE email = '$email'");
+    print("Deletou");
+
+    await conn.close();
+
+    return '';
+  } catch (e) {
+    return "Erro ao tentar excluir o aluno ($email): $e";
+  }
+
+}
