@@ -168,3 +168,30 @@ deletaTrabalho(context, trabalho) async {
     return "Erro ao tentar excluir o trabalho ($titulo): $e";
   }
 }
+vinculaTrabalhoAluno(context, trabalho, aluno) async {
+  var idaluno = 0;
+  var idTrabalho = trabalho.idTrabalho;
+
+  await dotenv.load(fileName: "lib/assets/.env");
+    try {
+      final conn = await MySQLConnection.createConnection(
+        host: dotenv.get("HOST_BD"),
+        port: int.parse(dotenv.get("PORT_BD")),
+        userName: dotenv.get("USUARIO_BD"),
+        password: dotenv.get("SENHA_BD"),
+        databaseName: "bdeurekamap",
+      );
+    await conn.connect();
+    var res = await conn.execute("SELECT idAluno FROM aluno WHERE nome = '$aluno'");
+    for (final row in res.rows) {
+      idaluno = row.colAt(0) as int;
+    }
+    await conn.execute("UPDATE trabalhos_aluno SET idAluno = '$idaluno' WHERE idTrabalho = '$idTrabalho'");
+    print("Vinculou");
+    await conn.close();
+    return '';
+    }catch (e) {
+    print(e);
+    return "Erro ao tentar vincular o trabalho ({$idTrabalho}) com o aluno ({$aluno}): $e";
+  }
+}

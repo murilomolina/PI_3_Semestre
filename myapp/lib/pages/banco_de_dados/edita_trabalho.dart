@@ -4,8 +4,8 @@ import 'package:myapp/data/trabalhos.dart';
 
 class EditaTrabalhoPage extends StatelessWidget {
   final Trabalhos trabalho;
-
-  const EditaTrabalhoPage({super.key, required this.trabalho});
+  final _nomeAlunoController = TextEditingController();
+  EditaTrabalhoPage({super.key, required this.trabalho});
 
   @override
   Widget build(BuildContext context) {
@@ -93,6 +93,42 @@ class EditaTrabalhoPage extends StatelessWidget {
               },
               child: const Text('Salvar'),
             ),
+            TextFormField(
+              controller: _nomeAlunoController,
+              decoration: const InputDecoration(labelText: 'Vincular trabalho com o nome do aluno:'),
+            ),
+            ElevatedButton(
+              onPressed: () async {
+                try {
+                  // Chamada para editar o trabalho passando os valores dos controllers
+                  await vinculaTrabalhoAluno(
+                    context,
+                    trabalho,
+                    _nomeAlunoController.text
+                  );
+                  showDialog(
+                    // ignore: use_build_context_synchronously
+                    context: context,
+                    builder: (context) {
+                      return const AlertDialog(
+                        content: Text("Trabalho editado com sucesso!"),
+                      );
+                    },
+                  );
+                } catch (e) {
+                  // Em caso de erro, exibe um dialogo de erro
+                  showDialog(
+                    // ignore: use_build_context_synchronously
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        content: Text("Erro ao tentar editar Trabalho page: $e"),
+                      );
+                    },
+                  );
+                }
+              },
+              child: const Text('Vincular'),)
           ],
         ),
       ),
