@@ -35,11 +35,6 @@ class No{
 class FilaCaminho {
   No? primeiro;
   No? ultimo;
-  // ignore: prefer_final_fields
-  List<List<dynamic>> _path = [];
-
-
-  FilaCaminho(List<List<dynamic>> caminho) : _path = List<List<dynamic>>.from(caminho);
 
   void add(int col, int row) {
     No novo = No(col, row);

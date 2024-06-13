@@ -116,7 +116,7 @@ class _DesenhaGridState extends State<DesenhaGrid> {
         var rows = pathProcessor.rows;
         var cols = pathProcessor.cols;
 
-        var fila = FilaCaminho(path);
+        var fila = FilaCaminho();
         for(int i = 0; i < path.length; i++){
           fila.add(cols[i], rows[i]);
         }
