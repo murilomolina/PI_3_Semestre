@@ -6,7 +6,6 @@ import 'package:myapp/pages/pagina_inicial.dart';
 import 'package:myapp/widgets/pinta_borda.dart';
 import 'package:myapp/widgets/edita_container.dart';
 import 'dart:async';
-import 'dart:math';
 
 Timer? timerUpdate;
 
