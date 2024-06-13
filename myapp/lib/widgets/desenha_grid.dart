@@ -161,19 +161,9 @@ class _DesenhaGridState extends State<DesenhaGrid> {
                       ? color
                       : cores[num - 1],
                   border: color == Colors.indigo || color == Colors.blue
-                      ? Border.all(color: Colors.black)
+                      ? Border.all(color: Colors.transparent)
                       : bordas[num - 1]
               ),
-              child: OverflowBox(
-                minHeight: 0,
-                minWidth: 0,
-                maxHeight: double.infinity,
-                maxWidth: double.infinity,
-                child: Transform.rotate(
-                    angle: angulo[num - 1] * pi / 180,
-                    child: Text(texto[num - 1],
-                        style: TextStyle(fontSize: tamanho[num - 1]))),
-              )
             );
           },
         );
@@ -232,16 +222,6 @@ class _DesenhaGridState extends State<DesenhaGrid> {
         return Container(
           decoration:
               BoxDecoration(color: cores[num - 1], border: bordas[num - 1]),
-          child: OverflowBox(
-            minHeight: 0,
-            minWidth: 0,
-            maxHeight: double.infinity,
-            maxWidth: double.infinity,
-            child: Transform.rotate(
-                angle: angulo[num - 1] * pi / 180,
-                child: Text(texto[num - 1],
-                    style: TextStyle(fontSize: tamanho[num - 1]))),
-          )
         );
       },
     );

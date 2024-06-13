@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/data/trabalhos.dart';
-import 'package:myapp/pages/banco_de_dados/edita_trabalho.dart';
 import 'package:myapp/utils/drawers.dart';
 
 class ExibeTrabalhos extends StatefulWidget {
@@ -98,14 +97,14 @@ class _ExibeTrabalhosState extends State<ExibeTrabalhos> {
                             Text('Id Estande: ${trabalho.idEstande}'),
                           ],
                         ),
-                         onTap: () {
+                         /*onTap: () {
                           Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (context) => EditaTrabalhoPage(trabalho: trabalho),
                           ),
                         );
-                        },
+                        },*/
                         trailing: ElevatedButton(
                           style: ButtonStyle(
                               backgroundColor: MaterialStateProperty.all<Color>(Colors.red), // Cor de fundo

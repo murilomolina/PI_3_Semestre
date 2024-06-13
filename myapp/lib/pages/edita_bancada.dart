@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/utils/drawers.dart';
 import 'package:myapp/widgets/cria_grid.dart';
-
-
-List<int> coordenadas = [];
+import 'dart:math';
 
 class EditaBancada extends StatefulWidget {
   const EditaBancada({super.key});
@@ -43,44 +41,60 @@ class _EditaBancadaState extends State<EditaBancada> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                // ignore: prefer_const_constructors
-                SizedBox(
+               SizedBox(
                   // o vs sugere que deixe essa caixa como uma const, porem se deixar o grid nunca se altera (deixando de fazer sua unica função)
-                  height: 400,
-                  child: CriaGrid(),
-                ),
-                TextField(
-                  controller: inputUsuario,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: "Insira o local desejado",
+                  height: 800,
+                  child: Stack(
+                    children: [
+                      CriaGrid(),
+                      Positioned(
+                        top: 55,
+                        left: 110,
+                        child: Text("Arquibancada", style: TextStyle(color: Colors.purple[900], fontSize: 20, fontWeight: FontWeight.bold),)
+                      ),
+                      Positioned(
+                        top: 250,
+                        left: 0,
+                        child: Transform.rotate(angle: 90 * pi / 180, child: const Text("Corredor 1", style: TextStyle(color: Colors.red, fontSize: 16, fontWeight: FontWeight.bold),),)
+                      ),
+                      Positioned(
+                        top: 550,
+                        left: 0,
+                        child: Transform.rotate(angle: 90 * pi / 180, child: const Text("Corredor 1", style: TextStyle(color: Colors.red, fontSize: 16, fontWeight: FontWeight.bold),),)
+                      ),
+                      Positioned(
+                        top: 250,
+                        left: 65,
+                        child: Transform.rotate(angle: 90 * pi / 180, child: const Text("Corredor 2", style: TextStyle(color: Colors.red, fontSize: 16, fontWeight: FontWeight.bold),),)
+                      ),
+                      Positioned(
+                        top: 550,
+                        left: 65,
+                        child: Transform.rotate(angle: 90 * pi / 180, child: const Text("Corredor 2", style: TextStyle(color: Colors.red, fontSize: 16, fontWeight: FontWeight.bold),),)
+                      ),
+                      Positioned(
+                        top: 250,
+                        left: 143,
+                        child: Transform.rotate(angle: 90 * pi / 180, child: const Text("Corredor 3", style: TextStyle(color: Colors.red, fontSize: 16, fontWeight: FontWeight.bold),),)
+                      ),
+                      Positioned(
+                        top: 550,
+                        left: 143,
+                        child: Transform.rotate(angle: 90 * pi / 180, child: const Text("Corredor 3", style: TextStyle(color: Colors.red, fontSize: 16, fontWeight: FontWeight.bold),),)
+                      ),
+                      Positioned(
+                        top: 250,
+                        left: 207,
+                        child: Transform.rotate(angle: 90 * pi / 180, child: const Text("Corredor 4", style: TextStyle(color: Colors.red, fontSize: 16, fontWeight: FontWeight.bold),),)
+                      ),
+                      Positioned(
+                        top: 550,
+                        left: 207,
+                        child: Transform.rotate(angle: 90 * pi / 180, child: const Text("Corredor 4", style: TextStyle(color: Colors.red, fontSize: 16, fontWeight: FontWeight.bold),),)
+                      ),
+                    ],
                   ),
                 ),
-                // Cria o botao para inserir coordenadas
-                MaterialButton(
-                  onPressed: () => {
-                    setState(() {
-                      if (inputUsuario.text != "") {
-                        // Mudar o tratamento quando adicionar a busca por ra nome trabalho, etc
-                        coordenadas = inputUsuario.text
-                            .split(',')
-                            .map<int>((e) => int.tryParse(e) ?? 0)
-                            .toList();
-                      } else {
-                        // Reseta as coordenadas para limpar o grid caso o usuario envie uma mensagem vazia, mudar para um botao de "limpar caminho no futuro"
-                        coordenadas = [];
-                      }
-                    }),
-                    // Cria a grid novamente
-                    // ignore: prefer_const_constructors
-                    CriaGrid(),
-                  },
-                  color: Colors.blue,
-                  child: const Text(
-                    "Enviar",
-                    style: TextStyle(color: Colors.white),
-                  ),
-                )
               ],
             ),
           ),

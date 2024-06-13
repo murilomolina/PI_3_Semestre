@@ -42,7 +42,7 @@ class _PaginaInicialState extends State<PaginaInicial> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-        title: const Text('Tela Inicial'),
+        title: const Text('EurekaMap'),
           // Adicionando o ícone de hambúrguer no AppBar
           leading: Builder(
             builder: (BuildContext context) {
